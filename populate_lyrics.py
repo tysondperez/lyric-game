@@ -2,14 +2,15 @@ import requests
 import time
 from dotenv import load_dotenv
 import os
+import json
 
 start_time = time.time()
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-mbids = ["31a52323-6da9-43fb-a62b-f389030be585"]
-# mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
+# mbids = ["31a52323-6da9-43fb-a62b-f389030be585"]
+mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
 
 songs = []
 
@@ -30,6 +31,18 @@ for id in mbids:
             songs.append((track["name"], "Noah Kahan", album, track["duration"]))
 
 print("Populating lyrics...")
+
+j = "song-list.json"
+with open(j, "w") as f:
+    json.dump([], f)
+
+def append_json(item, filename="song-list.json"):
+    with open(filename, "r") as f:
+        data = json.load(f)
+    data.append(item)
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=2)
+
 for song in songs:
     response = requests.get(
         "https://lrclib.net/api/get",
@@ -48,14 +61,12 @@ for song in songs:
         lyrics = data["plainLyrics"]
         with open("lyrics/"+song[0]+".txt", "w", encoding="utf-8") as f:
             f.write(lyrics)
+            append_json("lyrics/"+song[0]+".txt")
 
 end_time = time.time()
 runtime = end_time - start_time
 print("Songs Fetched: "+str(len(songs)))
 print(f"Runtime: {runtime:.4f} seconds")
-
-
-
 
 # response = requests.get(
 #     "https://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums",
