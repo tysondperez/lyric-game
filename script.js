@@ -77,3 +77,13 @@ input.addEventListener("input", () => {
 });
 
 getRandomLyrics().then(text => renderLyrics(text));
+
+function giveUp(){
+    const remaining = document.querySelectorAll('.word.hidden');
+    remaining.forEach(span => {
+        span.classList.remove("hidden");
+        span.classList.add("revealed");
+    })
+    document.getElementById("userInput").disabled = true;
+    document.getElementById("giveUp").disabled = true;
+}
