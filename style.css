@@ -1,0 +1,53 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  justify-content: flex-start;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  text-align: center;
+}
+
+input {
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 10px 0;
+  width: 90%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+#lyrics {
+  font-size: 1.2em;
+  margin-top: 15px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  column-width: 400px;
+  column-gap: 2em; 
+  width: 100%;
+  max-width: 1200px;
+}
+
+.line {
+  margin-bottom: .5em;
+  break-inside: avoid;
+}
+
+.word {
+  display: inline-block;
+  margin-right: 0.25em;
+}
+
+.hidden {
+  background: #333;
+  color: transparent;
+  border-radius: 3px;
+  padding: 0 4px;
+  height: 1em; 
+  line-height: 1em;
+  vertical-align: bottom;
+}
+
+.revealed {
+  color: black;
+}
