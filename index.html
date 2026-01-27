@@ -6,14 +6,36 @@
     <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
-    <!-- <div id="banner"></div> -->
-    <h1>Noah Kahan Lyric Quiz</h1>
-    <div class="input-row">
-        <input type="text" id="userInput" placeholder="Enter lyrics here...">
-        <button onclick="giveUp()" id="giveUp">Give Up</button>
+    <div id="header">
+        <!-- <div id="banner"></div> -->
+        <h1>Noah Kahan Lyric Quiz</h1>
+        <div class="input-row">
+            <input type="text" id="userInput" placeholder="Enter lyrics here...">
+            <button onclick="giveUp()" id="giveUp">Give Up</button>
+        </div>
+        <div id="score"></div>
+        <!-- Persistent win message (hidden until win) -->
+        <div id="winSummary" class="hidden">
+            <p>
+                You won! The song was:
+                <strong id="winSongName"></strong>
+            </p>
+            <button id="reopenModalBtn">View win details</button>
+        </div>
+
+        <!-- Modal overlay -->
+        <div id="winModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>You won!</h2>
+                <p>The song was: <strong id="modalSongName"></strong></p>
+                <p>You had <strong id="modalCorrectCount"></strong> correct guesses</p>
+                <button id="closeModalBtn">Continue</button>
+            </div>
+        </div>
     </div>
-    <div id="song"></div>
-    <div id="lyrics"></div>
+    <div id="content">
+        <div id="lyrics"></div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
