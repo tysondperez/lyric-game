@@ -17,7 +17,7 @@ async function getRandomLyrics() {
 let normalizedSongName = "";
 let rawSongName = "";
 const lyricsDiv = document.getElementById("lyrics");
-const guessedWords = new Set();
+let guessedWords = new Set();
 let numGuessed = 0;
 let total = 0;
 let gameWon = false;
@@ -118,6 +118,7 @@ function giveUp(){
 }
 
 function newSong(){
+  guessedWords = new Set();
   total = 0;
   numGuessed = 0;
   getRandomLyrics().then(text => renderLyrics(text));
