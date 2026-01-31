@@ -118,6 +118,7 @@ function giveUp(){
 }
 
 function newSong(){
+  gameWon = false;
   guessedWords = new Set();
   total = 0;
   numGuessed = 0;
