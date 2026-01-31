@@ -123,6 +123,8 @@ function newSong(){
   total = 0;
   numGuessed = 0;
   getRandomLyrics().then(text => renderLyrics(text));
+  document.getElementById("winModal").classList.add("hidden");
+  document.getElementById("winSummary").classList.add("hidden");
   document.getElementById("userInput").disabled = false;
   document.getElementById("userInput").value = "";
   document.getElementById("giveUp").disabled = false;
