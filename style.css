@@ -59,13 +59,23 @@ input {
   box-sizing: border-box;
 }
 
-.input-row button {
+#giveUp {
   font-size: 1em;
   padding: 10px 14px;
   cursor: pointer;
   background-color: lightcoral;
   border-radius: 3px;
   border-color: lightcoral;
+}
+
+#newSong {
+  font-size: 1em;
+  padding: 10px 14px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+  border-radius: 3px;
+  border-color: #333;
 }
 
 .input-row:disabled {

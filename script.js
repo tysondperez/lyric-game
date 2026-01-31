@@ -108,13 +108,22 @@ document.getElementById("reopenModalBtn").addEventListener("click", () => {
 getRandomLyrics().then(text => renderLyrics(text));
 
 function giveUp(){
-    const remaining = document.querySelectorAll('.word.lyric-hidden');
-    remaining.forEach(span => {
-        span.classList.remove("lyric-hidden");
-        span.classList.add("revealed");
-    })
-    document.getElementById("userInput").disabled = true;
-    document.getElementById("giveUp").disabled = true;
+  const remaining = document.querySelectorAll('.word.lyric-hidden');
+  remaining.forEach(span => {
+      span.classList.remove("lyric-hidden");
+      span.classList.add("revealed");
+  })
+  document.getElementById("userInput").disabled = true;
+  document.getElementById("giveUp").disabled = true;
+}
+
+function newSong(){
+  total = 0;
+  numGuessed = 0;
+  getRandomLyrics().then(text => renderLyrics(text));
+  document.getElementById("userInput").disabled = false;
+  document.getElementById("userInput").value = "";
+  document.getElementById("giveUp").disabled = false;
 }
 
 function normalizeSongName(name) {
