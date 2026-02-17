@@ -1,60 +1,292 @@
 [
-  "lyrics/Northern Attitude.txt",
-  "lyrics/Stick Season.txt",
-  "lyrics/All My Love.txt",
-  "lyrics/She Calls Me Back.txt",
-  "lyrics/Come Over.txt",
-  "lyrics/New Perspective.txt",
-  "lyrics/Everywhere, Everything (with Gracie Abrams).txt",
-  "lyrics/Orange Juice.txt",
-  "lyrics/Strawberry Wine.txt",
-  "lyrics/Growing Sideways.txt",
-  "lyrics/Halloween.txt",
-  "lyrics/Homesick.txt",
-  "lyrics/Still.txt",
-  "lyrics/The View Between Villages.txt",
-  "lyrics/Your Needs, My Needs.txt",
-  "lyrics/Dial Drunk.txt",
-  "lyrics/Paul Revere.txt",
-  "lyrics/No Complaints.txt",
-  "lyrics/Call Your Mom.txt",
-  "lyrics/You\u2019re Gonna Go Far.txt",
-  "lyrics/The View Between Villages - Extended.txt",
-  "lyrics/Forever.txt",
-  "lyrics/Dial Drunk (with Post Malone).txt",
-  "lyrics/Call Your Mom (with Lizzy McAlpine).txt",
-  "lyrics/She Calls Me Back (with Kacey Musgraves).txt",
-  "lyrics/Northern Attitude (with Hozier).txt",
-  "lyrics/Everywhere, Everything (with Gracie Abrams).txt",
-  "lyrics/Homesick (with Sam Fender).txt",
-  "lyrics/You\u2019re Gonna Go Far (with Brandi Carlile).txt",
-  "lyrics/Paul Revere (with Gregory Alan Isakov).txt",
-  "lyrics/False Confidence.txt",
-  "lyrics/Mess.txt",
-  "lyrics/Hurt Somebody.txt",
-  "lyrics/Young Blood.txt",
-  "lyrics/Busyhead.txt",
-  "lyrics/Cynic.txt",
-  "lyrics/Save Me.txt",
-  "lyrics/Sink.txt",
-  "lyrics/Tidal.txt",
-  "lyrics/Carlo's Song.txt",
-  "lyrics/A Troubled Mind.txt",
-  "lyrics/Close Behind.txt",
-  "lyrics/Glue Myself Shut.txt",
-  "lyrics/Anyway.txt",
-  "lyrics/Maine.txt",
-  "lyrics/Part of Me.txt",
-  "lyrics/Animal.txt",
-  "lyrics/Caves.txt",
-  "lyrics/Bad Luck.txt",
-  "lyrics/Godlight.txt",
-  "lyrics/Someone Like You.txt",
-  "lyrics/Fear of Water.txt",
-  "lyrics/Hollow.txt",
-  "lyrics/Bury Me.txt",
-  "lyrics/Howling.txt",
-  "lyrics/Catastrophize.txt",
-  "lyrics/Passenger.txt",
-  "lyrics/Please.txt"
+  {
+    "title": "Northern Attitude",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Northern Attitude.txt"
+  },
+  {
+    "title": "Stick Season",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Stick Season.txt"
+  },
+  {
+    "title": "All My Love",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/All My Love.txt"
+  },
+  {
+    "title": "She Calls Me Back",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/She Calls Me Back.txt"
+  },
+  {
+    "title": "Come Over",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Come Over.txt"
+  },
+  {
+    "title": "Everywhere, Everything",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Everywhere, Everything.txt"
+  },
+  {
+    "title": "New Perspective",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/New Perspective.txt"
+  },
+  {
+    "title": "Orange Juice",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Orange Juice.txt"
+  },
+  {
+    "title": "Strawberry Wine",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Strawberry Wine.txt"
+  },
+  {
+    "title": "Growing Sideways",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Growing Sideways.txt"
+  },
+  {
+    "title": "Halloween",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Halloween.txt"
+  },
+  {
+    "title": "Homesick",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Homesick.txt"
+  },
+  {
+    "title": "Still",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Still.txt"
+  },
+  {
+    "title": "The View Between Villages",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/The View Between Villages.txt"
+  },
+  {
+    "title": "Your Needs, My Needs",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Your Needs, My Needs.txt"
+  },
+  {
+    "title": "Dial Drunk",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Dial Drunk.txt"
+  },
+  {
+    "title": "Paul Revere",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Paul Revere.txt"
+  },
+  {
+    "title": "No Complaints",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/No Complaints.txt"
+  },
+  {
+    "title": "Call Your Mom",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Call Your Mom.txt"
+  },
+  {
+    "title": "You\u2019re Gonna Go Far",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/You\u2019re Gonna Go Far.txt"
+  },
+  {
+    "title": "The View Between Villages - Extended",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/The View Between Villages - Extended.txt"
+  },
+  {
+    "title": "Forever",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Forever.txt"
+  },
+  {
+    "title": "Dial Drunk (with Post Malone)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Dial Drunk (with Post Malone).txt"
+  },
+  {
+    "title": "Call Your Mom (with Lizzy McAlpine)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Call Your Mom (with Lizzy McAlpine).txt"
+  },
+  {
+    "title": "She Calls Me Back (with Kacey Musgraves)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/She Calls Me Back (with Kacey Musgraves).txt"
+  },
+  {
+    "title": "Northern Attitude (with Hozier)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Northern Attitude (with Hozier).txt"
+  },
+  {
+    "title": "Everywhere, Everything (with Gracie Abrams)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Everywhere, Everything (with Gracie Abrams).txt"
+  },
+  {
+    "title": "Homesick (with Sam Fender)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Homesick (with Sam Fender).txt"
+  },
+  {
+    "title": "You\u2019re Gonna Go Far (with Brandi Carlile)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/You\u2019re Gonna Go Far (with Brandi Carlile).txt"
+  },
+  {
+    "title": "Paul Revere (with Gregory Alan Isakov)",
+    "album": "Stick Season (Forever)",
+    "file": "lyrics/Stick Season (Forever)/Paul Revere (with Gregory Alan Isakov).txt"
+  },
+  {
+    "title": "False Confidence",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/False Confidence.txt"
+  },
+  {
+    "title": "Mess",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Mess.txt"
+  },
+  {
+    "title": "Hurt Somebody",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Hurt Somebody.txt"
+  },
+  {
+    "title": "Young Blood",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Young Blood.txt"
+  },
+  {
+    "title": "Busyhead",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Busyhead.txt"
+  },
+  {
+    "title": "Cynic",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Cynic.txt"
+  },
+  {
+    "title": "Save Me",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Save Me.txt"
+  },
+  {
+    "title": "Sink",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Sink.txt"
+  },
+  {
+    "title": "Tidal",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Tidal.txt"
+  },
+  {
+    "title": "Carlo's Song",
+    "album": "Busyhead",
+    "file": "lyrics/Busyhead/Carlo's Song.txt"
+  },
+  {
+    "title": "A Troubled Mind",
+    "album": "Cape Elizabeth",
+    "file": "lyrics/Cape Elizabeth/A Troubled Mind.txt"
+  },
+  {
+    "title": "Close Behind",
+    "album": "Cape Elizabeth",
+    "file": "lyrics/Cape Elizabeth/Close Behind.txt"
+  },
+  {
+    "title": "Glue Myself Shut",
+    "album": "Cape Elizabeth",
+    "file": "lyrics/Cape Elizabeth/Glue Myself Shut.txt"
+  },
+  {
+    "title": "Anyway",
+    "album": "Cape Elizabeth",
+    "file": "lyrics/Cape Elizabeth/Anyway.txt"
+  },
+  {
+    "title": "Maine",
+    "album": "Cape Elizabeth",
+    "file": "lyrics/Cape Elizabeth/Maine.txt"
+  },
+  {
+    "title": "Part of Me",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Part of Me.txt"
+  },
+  {
+    "title": "Animal",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Animal.txt"
+  },
+  {
+    "title": "Caves",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Caves.txt"
+  },
+  {
+    "title": "Bad Luck",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Bad Luck.txt"
+  },
+  {
+    "title": "Godlight",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Godlight.txt"
+  },
+  {
+    "title": "Someone Like You",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Someone Like You.txt"
+  },
+  {
+    "title": "Fear of Water",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Fear of Water.txt"
+  },
+  {
+    "title": "Hollow",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Hollow.txt"
+  },
+  {
+    "title": "Bury Me",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Bury Me.txt"
+  },
+  {
+    "title": "Howling",
+    "album": "I Was  I Am",
+    "file": "lyrics/I Was  I Am/Howling.txt"
+  },
+  {
+    "title": "Catastrophize",
+    "album": "Hurt Somebody",
+    "file": "lyrics/Hurt Somebody/Catastrophize.txt"
+  },
+  {
+    "title": "Passenger",
+    "album": "Hurt Somebody",
+    "file": "lyrics/Hurt Somebody/Passenger.txt"
+  },
+  {
+    "title": "Please",
+    "album": "Hurt Somebody",
+    "file": "lyrics/Hurt Somebody/Please.txt"
+  }
 ]

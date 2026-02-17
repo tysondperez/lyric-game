@@ -1,14 +1,21 @@
-async function getRandomLyrics() {
+async function getRandomLyrics(selectedAlbums = []) {
   const res = await fetch("song-list.json");
-  const files = await res.json();
+  const songs = await res.json();
 
-  const randomFile = files[Math.floor(Math.random() * files.length)];
-  rawSongName = extractSongName(randomFile);
+  let eligibleSongs = songs;
+  if (selectedAlbums.length > 0) {
+    eligibleSongs = songs.filter(song =>
+      selectedAlbums.includes(song.album)
+    );
+  }
+
+  const randomFile =  eligibleSongs[Math.floor(Math.random() *  eligibleSongs.length)];
+  rawSongName = extractSongName(randomFile.file);
   normalizedSongName = normalizeSongName(rawSongName);
   console.log(randomFile);
   console.log(normalizedSongName);
 
-  const textRes = await fetch(randomFile);
+  const textRes = await fetch(randomFile.file);
   const lyricsText = await textRes.text();
 
   return lyricsText;

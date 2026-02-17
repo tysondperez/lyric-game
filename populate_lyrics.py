@@ -3,8 +3,28 @@ import time
 from dotenv import load_dotenv
 import os
 import json
+import time
+import re
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+import requests
 
 start_time = time.time()
+
+def create_session():
+    retry_strategy = Retry(
+        total=5,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"]
+    )
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    session = requests.Session()
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session
+
+session = create_session()
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
@@ -13,6 +33,13 @@ api_key = os.getenv("API_KEY")
 mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
 
 songs = []
+albums = []
+
+MANIFEST_FILE = "song-list.json"
+LYRICS_ROOT = "lyrics"
+
+def sanitize_filename(name):
+    return re.sub(r'[<>:"/\\|?*]', '', name).strip()
 
 print("Gathering songs...")
 for id in mbids:
@@ -25,43 +52,68 @@ for id in mbids:
         }
     )
     tracks = response.json()["album"]["tracks"]["track"]
-    album = response.json()["album"]["name"]
+    album = sanitize_filename(response.json()["album"]["name"])
+    if not any(a == album for a in albums):
+        albums.append(album)
+        album_dir = os.path.join(LYRICS_ROOT, album)
+        os.makedirs(album_dir, exist_ok=True)
     for track in tracks:
         if not any(song[0] == track["name"] for song in songs):
             songs.append((track["name"], "Noah Kahan", album, track["duration"]))
 
 print("Populating lyrics...")
 
-j = "song-list.json"
-with open(j, "w") as f:
+with open(MANIFEST_FILE, "w") as f:
     json.dump([], f)
 
 def append_json(item, filename="song-list.json"):
-    with open(filename, "r") as f:
-        data = json.load(f)
+    if not os.path.exists(filename):
+        data = []
+    else:
+        with open(filename, "r", encoding="utf-8") as f:
+            data = json.load(f)
     data.append(item)
     with open(filename, "w") as f:
         json.dump(data, f, indent=2)
 
 for song in songs:
-    response = requests.get(
-        "https://lrclib.net/api/get",
-        params={
-            "track_name": song[0],
+    params={
             "artist_name": song[1],
+            "track_name": song[0],
             "album_name": song[2],
             "duration": song[3]
         }
-    )
-    data = response.json()
+    print(params)
+    try: 
+        response = session.get(
+            "https://lrclib.net/api/get",
+            params={
+                "artist_name": song[1],
+                "track_name": song[0],
+                "album_name": song[2],
+                "duration": song[3]
+            }
+        )
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        print("Request failed for "+song[0])
+        continue
     if "statusCode" in data:
         if data["statusCode"] == 404:
             print("Lyrics not found for: "+song[0])
     else:
         lyrics = data["plainLyrics"]
-        with open("lyrics/"+song[0]+".txt", "w", encoding="utf-8") as f:
+        album_dir = os.path.join(LYRICS_ROOT, sanitize_filename(song[2]))
+        file_path = os.path.join(album_dir, f"{song[0]}.txt")
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(lyrics)
-            append_json("lyrics/"+song[0]+".txt")
+        manifest_entry = {
+            "title": song[0],
+            "album": song[2],
+            "file": file_path.replace("\\", "/")
+        }
+        append_json(manifest_entry)
+    time.sleep(0.5)
 
 end_time = time.time()
 runtime = end_time - start_time
