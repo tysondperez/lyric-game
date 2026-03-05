@@ -38,25 +38,48 @@ body {
 input {
   font-size: 1.2em;
   padding: 10px;
-  margin: 0px 0 0 0;
   width: 90%;
   max-width: 400px;
+  margin: 0 auto 10px auto;
+  display: block;
   box-sizing: border-box;
 }
 
 .input-row {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
   width: 90%;
   max-width: 500px;
+  margin: 0 auto;
 }
 
-.input-row input {
-  flex: 1;
-  font-size: 1.2em;
-  padding: 10px;
-  box-sizing: border-box;
+.input-row button {
+  font-size: 1em;
+  padding: 10px 16px;
+  height: 42px; /* consistent height for all buttons */
+}
+
+/* square settings button */
+#settings {
+  cursor: pointer;
+  background: #333;
+  border-radius: 3px;
+  border-color: #333;
+  width: 42px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* scale icon to fit button */
+#settings img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: invert(1);
 }
 
 #giveUp {
@@ -179,6 +202,20 @@ h1 {
   max-width: 400px;
   width: 90%;
   text-align: center;
+}
+
+.modal-content label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 6px auto;
+  text-align: left;
+  text-wrap: nowrap;
+}
+
+.modal-content input[type="checkbox"] {
+  margin: 0;
 }
 
 #reopenModalBtn {

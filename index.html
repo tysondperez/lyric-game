@@ -3,16 +3,18 @@
 <head>
     <title>Noah Kahan Lyric Quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
     <div id="header">
         <!-- <div id="banner"></div> -->
         <h1>Noah Kahan Lyric Quiz</h1>
+        <input type="text" id="userInput" placeholder="Enter lyrics here...">
         <div class="input-row">
             <button onclick="newSong()" id="newSong">New Song</button>
-            <input type="text" id="userInput" placeholder="Enter lyrics here...">
             <button onclick="giveUp()" id="giveUp">Give Up</button>
+            <button onclick="openSettings()" id="settings"><img src="setting.png" width="35" height="35"></button>
+            <!-- <a href="https://www.flaticon.com/free-icons/settings" title="settings icons">Settings icons created by Freepik - Flaticon</a> -->
         </div>
         <div id="score"></div>
         <div id="winSummary" class="hidden">
@@ -20,7 +22,7 @@
                 You won! The song was:
                 <strong id="winSongName"></strong>
             </p>
-            <button id="reopenModalBtn">View win details</button>
+            <button id="reopenWinModalBtn">View win details</button>
         </div>
 
         <!-- Modal overlay -->
@@ -29,13 +31,39 @@
                 <h2>You won!</h2>
                 <p>The song was: <strong id="modalSongName"></strong></p>
                 <p>You had <strong id="modalCorrectCount"></strong> correct guesses</p>
-                <button id="closeModalBtn">Continue</button>
+                <button id="closeWinModalBtn">Continue</button>
+            </div>
+        </div>
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Selected Albums:</h2>
+                <label>
+                    <input type="checkbox" id="cb3" name="Stick Season (Forever)" value="Stick Season (Forever)" checked onchange="toggleAlbum(this.value, this.checked)">
+                    Stick Season (Forever)
+                </label>
+                <label>
+                    <input type="checkbox" id="cb4" name="I Was  I Am" value="I Was  I Am" checked onchange="toggleAlbum(this.value, this.checked)">
+                    I Was // I Am
+                </label>
+                <label>
+                    <input type="checkbox" id="cb1" name="Cape Elizabeth" value="Cape Elizabeth" checked onchange="toggleAlbum(this.value, this.checked)">
+                    Cape Elizabeth
+                </label>
+                <label>
+                    <input type="checkbox" id="cb2" name="Busyhead" value="Busyhead" checked onchange="toggleAlbum(this.value, this.checked)">
+                    Busyhead
+                </label>
+                <label>
+                    <input type="checkbox" id="cb5" name="Hurt Somebody" value="Hurt Somebody" checked onchange="toggleAlbum(this.value, this.checked)">
+                    Hurt Somebody
+                </label>
+                <button id="closeSettingsModalBtn">Close</button>
             </div>
         </div>
     </div>
     <div id="content">
         <div id="lyrics"></div>
     </div>
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>

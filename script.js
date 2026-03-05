@@ -1,4 +1,14 @@
+let normalizedSongName = "";
+let rawSongName = "";
+const lyricsDiv = document.getElementById("lyrics");
+let guessedWords = new Set();
+let numGuessed = 0;
+let total = 0;
+let gameWon = false;
+let selectedAlbums = ["Stick Season (Forever)", "Busyhead", "Cape Elizabeth", "I Was  I Am", "Hurt Somebody"];
+
 async function getRandomLyrics(selectedAlbums = []) {
+  console.log("enabled albums: "+selectedAlbums);
   const res = await fetch("song-list.json");
   const songs = await res.json();
 
@@ -20,15 +30,6 @@ async function getRandomLyrics(selectedAlbums = []) {
 
   return lyricsText;
 }
-
-let normalizedSongName = "";
-let rawSongName = "";
-const lyricsDiv = document.getElementById("lyrics");
-let guessedWords = new Set();
-let numGuessed = 0;
-let total = 0;
-let gameWon = false;
-
 function normalize(word) {
   return word
     .toLowerCase()
@@ -104,11 +105,15 @@ input.addEventListener("input", () => {
   }
 });
 
-document.getElementById("closeModalBtn").addEventListener("click", () => {
+document.getElementById("closeWinModalBtn").addEventListener("click", () => {
   winModal.classList.add("hidden");
 });
 
-document.getElementById("reopenModalBtn").addEventListener("click", () => {
+document.getElementById("closeSettingsModalBtn").addEventListener("click", () => {
+  settingsModal.classList.add("hidden");
+});
+
+document.getElementById("reopenWinModalBtn").addEventListener("click", () => {
   winModal.classList.remove("hidden");
 });
 
@@ -129,12 +134,24 @@ function newSong(){
   guessedWords = new Set();
   total = 0;
   numGuessed = 0;
-  getRandomLyrics().then(text => renderLyrics(text));
+  getRandomLyrics(selectedAlbums).then(text => renderLyrics(text));
   document.getElementById("winModal").classList.add("hidden");
   document.getElementById("winSummary").classList.add("hidden");
   document.getElementById("userInput").disabled = false;
   document.getElementById("userInput").value = "";
   document.getElementById("giveUp").disabled = false;
+}
+
+function openSettings(){
+  document.getElementById("settingsModal").classList.remove("hidden");
+}
+
+function toggleAlbum(albumName, enabled){
+  if (enabled && !selectedAlbums.includes(albumName)){
+    selectedAlbums.push(albumName);
+  } else if (!enabled && selectedAlbums.includes(albumName)){
+    selectedAlbums = selectedAlbums.filter(a => a !== albumName);
+  }
 }
 
 function normalizeSongName(name) {
