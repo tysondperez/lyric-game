@@ -41,6 +41,7 @@ api_key = os.getenv("API_KEY")
 
 # mbids = ["31a52323-6da9-43fb-a62b-f389030be585"]
 mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
+alt_search = []
 if args.album:
     print("Searching for album...")
     response = requests.get(
@@ -58,6 +59,7 @@ if args.album:
         print("Album found: "+first_match["name"]+" - "+first_match["artist"])
     else:
         print("No MBID was found for album: "+first_match["name"]+" - "+first_match["artist"])
+        alt_search = first_match
 
 songs = []
 albums = []
@@ -77,6 +79,41 @@ def sanitize_filename(name):
     return re.sub(r'[<>:"/\\|?*]', '', name).strip()
 
 print("Gathering songs...")
+
+if alt_search:
+    response = requests.get(
+        "https://ws.audioscrobbler.com/2.0/?method=album.getInfo",
+        params={
+            "api_key": api_key,
+            "artist": alt_search["artist"],
+            "album": alt_search["name"],
+            "format": "json"
+        }
+    )
+    if not "album" in response.json():
+        print("Album "+alt_search["name"]+" not found")
+    elif not "tracks" in response.json()["album"]:
+        print("Album "+response.json()["album"]["name"]+" found, but there are no tracks")
+    else:
+        tracks = response.json()["album"]["tracks"]["track"]
+        album = sanitize_filename(response.json()["album"]["name"])
+        if not any(a == album for a in albums):
+            albums.append(album)
+            album_dir = os.path.join(LYRICS_ROOT, album)
+            os.makedirs(album_dir, exist_ok=True)
+        for track in tracks:
+            if not any(song[0] == track["name"] for song in songs):
+                if append_mode:
+                    if track["name"] not in existing_songs:
+                        songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+                        if verbose:
+                            print("Appended " + track["name"] + " to songs")
+                    else:
+                        if verbose:
+                            print("Skipping duplicate: " + track["name"])
+                else:
+                    songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+
 for id in mbids:
     response = requests.get(
         "https://ws.audioscrobbler.com/2.0/?method=album.getInfo",
