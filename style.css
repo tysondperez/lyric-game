@@ -13,13 +13,13 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1.5;
   text-align: center;
-  background-image: url("stick-season-album-cover.jpg");
+  background-image: url("great-divide-album-cover.png");
   background-attachment: fixed;
-  background-size: 70%;
+  background-size: 65%;
   background-position-x: center;
   background-repeat: no-repeat;
-  background-position-y: 20%;
-  background-color: #5D604B;
+  background-position-y: 50%;
+  background-color: #503919;
 }
 
 @media screen and (max-width: 600px) {

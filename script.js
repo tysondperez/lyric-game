@@ -2,6 +2,7 @@ let normalizedSongName = "";
 let rawSongName = "";
 const lyricsDiv = document.getElementById("lyrics");
 let guessedWords = new Set();
+let uniqueWords = new Set();
 let numGuessed = 0;
 let total = 0;
 let gameWon = false;
@@ -53,6 +54,10 @@ function renderLyrics(text) {
 
       const normalized = normalize(token);
 
+      if (normalized && !uniqueWords.has(normalized)){
+        uniqueWords.add(normalized);
+      }
+
       if (normalized && !guessedWords.has(normalized)) {
         span.classList.add("lyric-hidden");
         span.dataset.word = normalized;
@@ -67,7 +72,7 @@ function renderLyrics(text) {
     });
     lyricsDiv.appendChild(lineDiv); 
   });
-  document.getElementById("score").innerHTML = `0 / ${total} guessed`;
+  document.getElementById("score").innerHTML = `0 / ${uniqueWords.size} guessed`;
 }
 
 const input = document.getElementById("userInput");
@@ -82,15 +87,13 @@ input.addEventListener("input", () => {
   );
 
   if (matches.length > 0) {
+    numGuessed ++;
     guessedWords.add(guess);
-
     matches.forEach(span => {
       span.classList.remove("lyric-hidden");
       span.classList.add("revealed");
-      numGuessed ++;
-      document.getElementById("score").textContent = numGuessed + " / " + total + " guessed";
     });
-
+    document.getElementById("score").textContent = numGuessed + " / " + uniqueWords.size + " guessed";
     input.value = "";
   }
 });
@@ -134,6 +137,7 @@ function newSong(){
   guessedWords = new Set();
   total = 0;
   numGuessed = 0;
+  uniqueWords = new Set();
   getRandomLyrics(selectedAlbums).then(text => renderLyrics(text));
   document.getElementById("winModal").classList.add("hidden");
   document.getElementById("winSummary").classList.add("hidden");
