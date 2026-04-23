@@ -78,6 +78,17 @@ function renderLyrics(text) {
 const input = document.getElementById("userInput");
 
 input.addEventListener("input", () => {
+  if (gameWon) return;
+
+  const userGuess = normalizeSongName(input.value);
+
+  if (userGuess === normalizedSongName) {
+    triggerWin();
+    input.value = "";
+  }
+});
+
+input.addEventListener("input", () => {
   const guess = normalize(input.value);
 
   if (!guess) return;
@@ -98,15 +109,7 @@ input.addEventListener("input", () => {
   }
 });
 
-input.addEventListener("input", () => {
-  if (gameWon) return;
 
-  const userGuess = normalizeSongName(input.value);
-
-  if (userGuess === normalizedSongName) {
-    triggerWin();
-  }
-});
 
 document.getElementById("closeWinModalBtn").addEventListener("click", () => {
   winModal.classList.add("hidden");
