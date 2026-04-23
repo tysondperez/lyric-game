@@ -8,8 +8,18 @@ import re
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import requests
+import argparse
 
 start_time = time.time()
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--append", action="store_true", help="Append to manifest instead of overwriting")
+parser.add_argument("--v", action="store_true", help="Enable verbose logging")
+parser.add_argument("--album", type=str, help="Specify an album to be populated")
+args = parser.parse_args()
+
+append_mode = args.append
+verbose = args.v
 
 def create_session():
     retry_strategy = Retry(
@@ -31,12 +41,37 @@ api_key = os.getenv("API_KEY")
 
 # mbids = ["31a52323-6da9-43fb-a62b-f389030be585"]
 mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
+if args.album:
+    print("Searching for album...")
+    response = requests.get(
+        "https://ws.audioscrobbler.com/2.0/?method=album.search",
+        params={
+            "album": args.album,
+            "api_key": api_key,
+            "format": "json"
+        }
+    )
+    first_match = response.json()["results"]["albummatches"]["album"][0]
+    
+    if first_match["mbid"]:
+        mbids.append(first_match["mbid"])
+        print("Album found: "+first_match["name"]+" - "+first_match["artist"])
+    else:
+        print("No MBID was found for album: "+first_match["name"]+" - "+first_match["artist"])
 
 songs = []
 albums = []
 
 MANIFEST_FILE = "song-list.json"
 LYRICS_ROOT = "lyrics"
+
+existing_files = set()
+existing_songs = set()
+if append_mode and os.path.exists(MANIFEST_FILE):
+    with open(MANIFEST_FILE, "r", encoding="utf-8") as f:
+        existing_data = json.load(f)
+        existing_files = {entry["file"] for entry in existing_data}
+        existing_songs = {entry["title"] for entry in existing_data}
 
 def sanitize_filename(name):
     return re.sub(r'[<>:"/\\|?*]', '', name).strip()
@@ -59,12 +94,25 @@ for id in mbids:
         os.makedirs(album_dir, exist_ok=True)
     for track in tracks:
         if not any(song[0] == track["name"] for song in songs):
-            songs.append((track["name"], "Noah Kahan", album, track["duration"]))
-
+            if append_mode:
+                if track["name"] not in existing_songs:
+                    songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+                    if verbose:
+                        print("Appended " + track["name"] + " to songs")
+                else:
+                    if verbose:
+                        print("Skipping duplicate: " + track["name"])
+            else:
+                songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+if verbose:
+    print(songs)
 print("Populating lyrics...")
 
-with open(MANIFEST_FILE, "w") as f:
-    json.dump([], f)
+if not append_mode:
+    if verbose:
+        print("No append flag detected, overwriting...")
+    with open(MANIFEST_FILE, "w") as f:
+        json.dump([], f)
 
 def append_json(item, filename="song-list.json"):
     if not os.path.exists(filename):
@@ -83,7 +131,8 @@ for song in songs:
             "album_name": song[2],
             "duration": song[3]
         }
-    print(params)
+    if verbose:
+        print(params)
     try: 
         response = session.get(
             "https://lrclib.net/api/get",
@@ -97,14 +146,20 @@ for song in songs:
         data = response.json()
     except requests.exceptions.RequestException as e:
         print("Request failed for "+song[0])
+        print(params)
+        print(e)
         continue
     if "statusCode" in data:
+        print(params)
         if data["statusCode"] == 404:
             print("Lyrics not found for: "+song[0])
     else:
         lyrics = data["plainLyrics"]
         album_dir = os.path.join(LYRICS_ROOT, sanitize_filename(song[2]))
         file_path = os.path.join(album_dir, f"{song[0]}.txt")
+        if file_path.replace("\\", "/") in existing_files:
+            print("Skipping duplicate: " + song[0])
+            continue
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(lyrics)
         manifest_entry = {
@@ -113,6 +168,7 @@ for song in songs:
             "file": file_path.replace("\\", "/")
         }
         append_json(manifest_entry)
+        print ("Successfully added "+song[0])
     time.sleep(0.5)
 
 end_time = time.time()
