@@ -78,6 +78,9 @@ if append_mode and os.path.exists(MANIFEST_FILE):
 def sanitize_filename(name):
     return re.sub(r'[<>:"/\\|?*]', '', name).strip()
 
+def sanitize_trackname(name):
+    return re.sub(r'\[explicit\]', '', name, flags=re.IGNORECASE)
+
 print("Gathering songs...")
 
 if alt_search:
@@ -130,17 +133,18 @@ for id in mbids:
         album_dir = os.path.join(LYRICS_ROOT, album)
         os.makedirs(album_dir, exist_ok=True)
     for track in tracks:
-        if not any(song[0] == track["name"] for song in songs):
+        track_name = sanitize_trackname(track["name"])
+        if not any(song[0] == track_name for song in songs):
             if append_mode:
-                if track["name"] not in existing_songs:
-                    songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+                if track_name not in existing_songs:
+                    songs.append((track_name, track["artist"]["name"], album, track["duration"]))
                     if verbose:
-                        print("Appended " + track["name"] + " to songs")
+                        print("Appended " + track_name + " to songs")
                 else:
                     if verbose:
-                        print("Skipping duplicate: " + track["name"])
+                        print("Skipping duplicate: " + track_name)
             else:
-                songs.append((track["name"], track["artist"]["name"], album, track["duration"]))
+                songs.append((track_name, track["artist"]["name"], album, track["duration"]))
 if verbose:
     print(songs)
 print("Populating lyrics...")
@@ -161,6 +165,7 @@ def append_json(item, filename="song-list.json"):
     with open(filename, "w") as f:
         json.dump(data, f, indent=2)
 
+misses = 0
 for song in songs:
     params={
             "artist_name": song[1],
@@ -187,7 +192,9 @@ for song in songs:
         print(e)
         continue
     if "statusCode" in data:
-        print(params)
+        misses+=1
+        if verbose:
+            print(params)
         if data["statusCode"] == 404:
             print("Lyrics not found for: "+song[0])
     else:
@@ -195,6 +202,7 @@ for song in songs:
         album_dir = os.path.join(LYRICS_ROOT, sanitize_filename(song[2]))
         file_path = os.path.join(album_dir, f"{song[0]}.txt")
         if file_path.replace("\\", "/") in existing_files:
+            misses+=1
             print("Skipping duplicate: " + song[0])
             continue
         with open(file_path, "w", encoding="utf-8") as f:
@@ -210,7 +218,7 @@ for song in songs:
 
 end_time = time.time()
 runtime = end_time - start_time
-print("Songs Fetched: "+str(len(songs)))
+print("Songs Fetched: "+str(len(songs) - misses))
 print(f"Runtime: {runtime:.4f} seconds")
 
 # response = requests.get(
