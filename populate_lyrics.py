@@ -83,11 +83,11 @@ if append_mode and os.path.exists(MANIFEST_FILE):
         existing_songs = {entry["title"] for entry in existing_data}
 
 def sanitize_filename(name):
-    name = re.sub(r'\[explicit\]', '', name, flags=re.IGNORECASE)
+    name = re.sub(r' \[explicit\]', '', name, flags=re.IGNORECASE)
     return re.sub(r'[<>:"/\\|?*]', '', name).strip()
 
 def sanitize_trackname(name):
-    return re.sub(r'\[explicit\]', '', name, flags=re.IGNORECASE)
+    return re.sub(r' \[explicit\]', '', name, flags=re.IGNORECASE)
 
 print("Gathering songs...")
 
@@ -154,7 +154,6 @@ for id in mbids:
                     songs.append((track_name, track["artist"]["name"], album, track["duration"]))
                     if verbose:
                         print("Appended " + track_name + " to songs")
-                        print(track["duration"])
                 else:
                     if verbose:
                         print("Skipping duplicate: " + track_name)
