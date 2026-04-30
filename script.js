@@ -6,7 +6,7 @@ let uniqueWords = new Set();
 let numGuessed = 0;
 let total = 0;
 let gameWon = false;
-let selectedAlbums = ["Stick Season (Forever)", "Busyhead", "Cape Elizabeth", "I Was  I Am", "Hurt Somebody"];
+let selectedAlbums = ["The Great Divide The Last of the Bugs", "Stick Season (Forever)", "Busyhead", "Cape Elizabeth", "I Was  I Am", "Hurt Somebody"];
 
 async function getRandomLyrics(selectedAlbums = []) {
   console.log("enabled albums: "+selectedAlbums);
