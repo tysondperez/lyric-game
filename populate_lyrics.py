@@ -15,7 +15,8 @@ start_time = time.time()
 parser = argparse.ArgumentParser()
 parser.add_argument("--append", action="store_true", help="Append to manifest instead of overwriting")
 parser.add_argument("--v", action="store_true", help="Enable verbose logging")
-parser.add_argument("--album", type=str, help="Specify an album to be populated")
+parser.add_argument("--album", type=str, help="Specify the name of an album to be populated")
+parser.add_argument("--mbid", type=str, help="Specify the MusicBrainz ID of an album to be populated")
 args = parser.parse_args()
 
 append_mode = args.append
@@ -40,7 +41,9 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 
 # mbids = ["31a52323-6da9-43fb-a62b-f389030be585"]
-mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
+# mbids = ["ef965d09-ff13-4ae4-9514-414a6ec13d3e", "1bc6d800-30a4-4962-99ea-cf0440ed1aa0", "8baa02b6-7956-4edd-a004-1d3cd8941a79", "2082dfe1-fc3c-40d8-8906-6961b0db124e", "31a52323-6da9-43fb-a62b-f389030be585"]
+mbids = []
+
 alt_search = []
 if args.album:
     print("Searching for album...")
@@ -61,6 +64,10 @@ if args.album:
         print("No MBID was found for album: "+first_match["name"]+" - "+first_match["artist"])
         alt_search = first_match
 
+if args.mbid:
+    print("Adding album from MBID...")
+    mbids.append(args.mbid)
+
 songs = []
 albums = []
 
@@ -76,6 +83,7 @@ if append_mode and os.path.exists(MANIFEST_FILE):
         existing_songs = {entry["title"] for entry in existing_data}
 
 def sanitize_filename(name):
+    name = re.sub(r'\[explicit\]', '', name, flags=re.IGNORECASE)
     return re.sub(r'[<>:"/\\|?*]', '', name).strip()
 
 def sanitize_trackname(name):
@@ -84,6 +92,8 @@ def sanitize_trackname(name):
 print("Gathering songs...")
 
 if alt_search:
+    if verbose:
+        print("Running alt search...")
     response = requests.get(
         "https://ws.audioscrobbler.com/2.0/?method=album.getInfo",
         params={
@@ -126,8 +136,12 @@ for id in mbids:
             "format": "json"
         }
     )
-    tracks = response.json()["album"]["tracks"]["track"]
-    album = sanitize_filename(response.json()["album"]["name"])
+    data = response.json()
+    if "error" in data:
+        print("Error for MBID "+id+": "+data["message"])
+        continue
+    tracks = data["album"]["tracks"]["track"]
+    album = sanitize_filename(data["album"]["name"])
     if not any(a == album for a in albums):
         albums.append(album)
         album_dir = os.path.join(LYRICS_ROOT, album)
@@ -140,6 +154,7 @@ for id in mbids:
                     songs.append((track_name, track["artist"]["name"], album, track["duration"]))
                     if verbose:
                         print("Appended " + track_name + " to songs")
+                        print(track["duration"])
                 else:
                     if verbose:
                         print("Skipping duplicate: " + track_name)
